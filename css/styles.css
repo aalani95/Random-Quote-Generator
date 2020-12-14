@@ -67,7 +67,7 @@ body {
 }
 
 .tag:before {
-  content:  "#";
+  content:  " #";
   font-style: normal;
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-// Qoutes storage to store qoutes data
+// storage to store qoutes data
 $quotes = [
     [
         "quote"  => "Engineering is the closest thing to magic that exists in the world.",
@@ -66,48 +66,35 @@ $bgColors = ["#365ab5", "#802284", "#22846b", "#842222", "#846422", "#272623", "
 // Get random value from the colors array
 $randomColor = $bgColors[array_rand($bgColors)];
 
-// Get random array key a multidem-array, used later to pass $qoutes
+// Get random element from a multi-dem array, used later to pass $qoutes
 function getRandomQuote($array){
-    $quotesCount = count($array) - 1;
-    $randomNum = rand(0, $quotesCount);
-    return $randomNum;
+    $randKey = array_rand($array);
+    return $array[$randKey];
 }
 
 // Print the randomly generated array element, $qoutes is passed as argument on execution 
 function printQuote($array){
     // Get the random value generatd from the above function
-    $targetPrint = print_r(getRandomQuote($array), true);
+    $targetPrint = getRandomQuote($array);
 
-    // Store array data into variables
-    $quote = print_r($array[$targetPrint]["quote"], true);
-    $source = print_r($array[$targetPrint]["source"], true);
+    // Output html
+    $html_string = '<p class="quote">' . $targetPrint["quote"] . '</p>';
+    $html_string .= '<p class="source">' . $targetPrint["source"];
 
-    // Some Qoutes data are not requeired to filled, condition to check if data exist then store
-    if (isset($array[$targetPrint]['citation'])){
-        $citation = print_r($array[$targetPrint]["citation"], true);
-    }
-    if (isset($array[$targetPrint]['year'])){
-        $year = print_r($array[$targetPrint]["year"], true);
-    }
-    if (isset($array[$targetPrint]['tag'])){
-        $tag = print_r($array[$targetPrint]["tag"], true);
+    if(isset($targetPrint['citation'])) {
+        $html_string .= '<span class="citation">' . $targetPrint["citation"] . '</span>';
     }
 
-    // HTML print
-    echo '<p class="quote">' . $quote . '</p>';
-    echo '</br>';
-    echo '<p class="source">' . $source . '</p>';
+    if(isset($targetPrint['year'])) {
+        $html_string .= '<span class="year">' . $targetPrint["year"] . '</span>';
+    }
 
-    // Checks if variables DO exist, then print
-    if (isset($tag)) {
-        echo '<span class="tag">' . $tag . ' ' . '</span>';
+    if(isset($targetPrint['tag'])) {
+        $html_string .= '<span class="tag">' . $targetPrint["tag"] . '</span>';
     }
-    if (isset($citation)) {
-        echo '<span class="citation">' . $citation . ' ' . '</span>';
-    }
-    if (isset($year)) {
-        echo '<span class="year">' . $year . '</span>';
-    }
+
+    $html_string  .= "</p>";
+    echo $html_string;
 
  }
 
